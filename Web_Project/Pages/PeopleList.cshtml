@@ -1,0 +1,85 @@
+﻿@page
+@model PeopleModel
+
+<form method="get">
+    <input type="text" name="search" placeholder="İsim veya Soyisim Ara" />
+    <button type="submit">Ara</button>
+</form>
+
+<h2>Sırala</h2>
+<table>
+    <tr>
+        <th>
+
+            <a href="?sort=name">İsim</a>
+        </th>
+        <th>
+            <a href="?sort=surname">Soyisim</a>
+        </th>
+        <th>
+            <a href="?sort=gender">Cinsiyet</a>
+        </th>
+        <th>
+            <a href="?sort=age">Yaş</a>
+        </th>
+    </tr>
+</table>
+
+<h1>Kişilerin Listesi</h1>
+
+<table class="people-table">
+    <thead>
+        <tr>
+            <th>Fotoğraf</th>
+            <th>İsim</th>
+            <th>Soyisim</th>
+            <th>Cinsiyet</th>
+            <th>Yaş</th>
+            @*<th>Action</th>*@
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var person in Model.People)
+        {
+            <tr>
+                <td>
+                    @if (person.Photo != null)
+                    {
+                        <img src="data:image/jpeg;base64,@Convert.ToBase64String(@person.Photo)" alt="Fotoğraf" class="profile-image" />
+                    }
+                    else
+                    {
+                        <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" alt="Blank Profile" class="profile-image" />
+                    }
+                </td>
+                <td>@person.Name</td>
+                <td>@person.Surname</td>
+                <td>@person.Gender</td>
+                <td>@person.Age</td>
+                <!--   <td>
+    <a class="btn btn-danger btn-sm" href="/Edit">Edit</a>
+     <a class="btn btn-danger btn-sm" href="/Pages/Delete">Delete</a> </td>
+          -->
+
+            </tr>
+        }
+    </tbody>
+</table>
+
+<style>
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    th, td {
+        padding: 8px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .profile-image {
+        width: 100px;
+        height: auto;
+    }
+</style>

@@ -1,0 +1,90 @@
+﻿@page
+@model DashboardModel
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<head>
+    <title>DashBoard</title>
+    <script>function exportToPdf() {
+            event.preventDefault(); // Form submitini engelle
+            fetch('/Dashboard?handler=ExportToPdf', { method: 'POST' })
+                .then(response => response.blob())
+                .then(blob => {
+                    const url = window.URL.createObjectURL(new Blob([blob]));
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'dashboard_data.pdf';
+                    document.body.appendChild(a);
+                    a.click();
+                    a.remove();
+                    window.URL.revokeObjectURL(url);
+                });
+        }</script>
+</head>
+
+<h1>Dashboard</h1>
+
+<div class="row">
+    <div class="col-md-6">
+        <canvas id="genderChart"></canvas>
+    </div>
+    <div class="col-md-6">
+        <canvas id="ageChart"></canvas>
+    </div>
+</div>
+
+
+<form method="post">
+    <button type="submit" name="exportButton" class="btn btn-primary">Export to PDF</button>
+</form>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        $(document).ready(function () {
+            var genderData = {
+                labels: ['Male', 'Female'],
+                datasets: [{
+                    data: [@Model.maleCount, @Model.femaleCount],
+                    backgroundColor: ['#36A2EB', '#FF6384']
+                }]
+            };
+
+            var genderChartOptions = {
+                responsive: true
+            };
+
+            var genderChart = new Chart($('#genderChart'), {
+                type: 'pie',
+                data: genderData,
+                options: genderChartOptions
+            });
+
+            var ageData = {
+                labels: ['0-15', '15-30', '30-45', '45+'],
+                datasets: [{
+                    data: [@Model.ageGroup1Average, @Model.ageGroup2Average, @Model.ageGroup3Average, @Model.ageGroup4Average],
+                    backgroundColor: ['#36A2EB', '#FF6384', '#FFCE56', '#4BC0C0']
+                }]
+            };
+
+            var ageChartOptions = {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            };
+
+            var ageChart = new Chart($('#ageChart'), {
+                type: 'bar',
+                data: ageData,
+                options: ageChartOptions
+            });
+        });
+    </script>
+}
+
+
