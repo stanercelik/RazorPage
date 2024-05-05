@@ -39,7 +39,7 @@ public class CreateModel : PageModel
 
         try
         {
-            String connectionString = "Server=localhost;Port=3306;Database=ProjectSchema;Uid=root;Pwd=Tnrclk2001.;";
+            String connectionString = "Server=localhost;Port=your_port;Database=ProjectSchema;Uid=root;Pwd=your_psw;";
             using(MySqlConnection connection = new MySqlConnection(connectionString))
             {
                 connection.Open();
