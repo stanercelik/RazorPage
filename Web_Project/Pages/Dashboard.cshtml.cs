@@ -23,7 +23,7 @@ public class DashboardModel : PageModel
 
     public void OnGet()
     {
-        string connectionString = "Server=localhost;Port=3306;Database=ProjectSchema;Uid=root;Pwd=Tnrclk2001.;";
+        string connectionString = "Server=localhost;Port=3306;Database=ProjectSchema;Uid=root;Pwd=your_psw;";
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             connection.Open();
